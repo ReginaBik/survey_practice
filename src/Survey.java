@@ -1,8 +1,10 @@
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Survey {
     public static void main(String[] args) {
 
-        /**
+        /*
          COMPLETE THIS CLASS AFTER ALL OTHER CLASSES ARE COMPLETED
          */
 
@@ -14,6 +16,54 @@ public class Survey {
         -Print the age of the youngest person
         -Print the age of the eldest person
          */
+        //Global variables or objects needed
+        Scanner inputReader = new Scanner(System.in);
+        ArrayList<Participant> participants = new ArrayList<>();
+        int youngest = Integer.MAX_VALUE;
+        int eldest = 0;
+
+        do{
+            System.out.println(SurveyQuestions.askToJoin);
+            String join = inputReader.next();
+
+            if(join.toLowerCase().startsWith("y")){
+                Participant.addParticipants();
+                //Ask your questions to get name, age and gender
+                System.out.println(SurveyQuestions.askName);
+                String name = inputReader.next();
+
+                System.out.println(SurveyQuestions.askAge);
+                int age = inputReader.nextInt();
+
+                System.out.println(SurveyQuestions.askGender);
+                String gender = inputReader.next();
+                Participant participant = new Participant(name, age, gender);
+                participants.add(participant);
+
+                if(gender.toUpperCase().startsWith("M")) Participant.addMaleParticipants();
+                else Participant.addFemaleParticipants();
+
+            }
+
+        }while(Participant.totalNumberOfParticipants < 3);
+
+        System.out.println(participants);
+
+        for(Participant participant : participants ){
+            System.out.println(participant);
+            if(participant.age > eldest) eldest = participant.age;
+            if(participant.age < youngest) youngest = participant.age;
+
+        }
+
+        System.out.println("Total number of male participants is = " + Participant.totalNumberOfMaleParticipants);
+        System.out.println("Total number of female participants is = " + Participant.totalNumberOfFemaleParticipants);
+        System.out.println("The age of the oldest participant is = " + eldest);
+        System.out.println("The age of the youngest participant is = " + youngest);
+
+
+
+
 
     }
 }
